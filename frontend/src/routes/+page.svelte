@@ -1,2 +1,8 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script>
+  let message = "こんにちは、SvelteKit!";
+</script>
+
+<main>
+  <h1>{message}</h1>
+  <p>これは簡単な<a href="https://svelte.dev/docs/kit">SvelteKit</a>のページです。</p>
+</main>
