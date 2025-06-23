@@ -2,13 +2,13 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-# パッケージファイルをコピー
+# package.jsonとpackage-lock.jsonのみを先にコピー
 COPY package*.json ./
 
-# 依存関係をインストール
+# 依存関係をLinuxコンテナ内でインストール
 RUN npm ci --only=production
 
-# アプリケーションコードをコピー
+# アプリケーションコードをコピー（.dockerignoreでnode_modulesは除外される）
 COPY . .
 
 # アプリケーションをビルド
