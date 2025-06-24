@@ -1,8 +1,9 @@
 import type { Todo, TodoCreate } from './types';
 
 // Docker環境とローカル開発環境の両方に対応
+const { protocol, hostname } = window.location;
 const API_BASE = typeof window !== 'undefined' 
-  ? 'http://localhost:8000/api'  // ブラウザから直接
+  ? `${protocol}//${hostname}:8000/api`  // ブラウザから直接
   : 'http://backend:8000/api';   // サーバーサイドから
 
 export async function fetchTodos(): Promise<Todo[]> {
