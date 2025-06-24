@@ -10,7 +10,6 @@ const config = {
       envPrefix: '',
     })
   },
-  // vitePreprocess()を明示的に設定
   preprocess: vitePreprocess()
 };
 

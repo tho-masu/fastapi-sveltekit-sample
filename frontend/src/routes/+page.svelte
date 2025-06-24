@@ -62,117 +62,68 @@
     }
 </script>
 
-<main>
-    <h1>Todo アプリケーション</h1>
+<main class="max-w-2xl mx-auto p-6">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Todo アプリケーション</h1>
     
-    <div class="add-todo">
-        <input
-            bind:value={newTodoTitle}
-            placeholder="Todo タイトル"
-            on:keydown={(e) => e.key === 'Enter' && addTodo()}
-        />
-        <input
-            bind:value={newTodoDescription}
-            placeholder="説明（オプション）"
-        />
-        <button on:click={addTodo}>追加</button>
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex flex-col sm:flex-row gap-3 mb-4">
+            <input
+                bind:value={newTodoTitle}
+                placeholder="Todo タイトル"
+                class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                on:keydown={(e) => e.key === 'Enter' && addTodo()}
+            />
+            <input
+                bind:value={newTodoDescription}
+                placeholder="説明（オプション）"
+                class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            />
+            <button 
+                on:click={addTodo}
+                class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 font-medium"
+            >
+                追加
+            </button>
+        </div>
     </div>
 
     {#if loading}
-        <p>読み込み中...</p>
+        <div class="flex justify-center items-center py-8">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+            <span class="ml-3 text-gray-600">読み込み中...</span>
+        </div>
     {:else if todos.length === 0}
-        <p>Todoがありません。</p>
+        <div class="text-center py-12">
+            <div class="text-gray-400 text-6xl mb-4">📝</div>
+            <p class="text-gray-500 text-lg">Todoがありません。</p>
+            <p class="text-gray-400 text-sm mt-2">上のフォームから新しいTodoを追加してみてください。</p>
+        </div>
     {:else}
-        <ul class="todo-list">
+        <div class="space-y-3">
             {#each todos as todo (todo.id)}
-                <li class="todo-item" class:completed={todo.completed}>
-                    <input
-                        type="checkbox"
-                        checked={todo.completed}
-                        on:change={() => toggleTodo(todo)}
-                    />
-                    <div class="todo-content">
-                        <h3>{todo.title}</h3>
-                        {#if todo.description}
-                            <p>{todo.description}</p>
-                        {/if}
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200" class:opacity-60={todo.completed}>
+                    <div class="flex items-start gap-4">
+                        <input
+                            type="checkbox"
+                            checked={todo.completed}
+                            on:change={() => toggleTodo(todo)}
+                            class="mt-1 w-5 h-5 text-blue-600 rounded focus:ring-blue-500 focus:ring-2"
+                        />
+                        <div class="flex-1 min-w-0" class:line-through={todo.completed}>
+                            <h3 class="text-lg font-medium text-gray-900 mb-1">{todo.title}</h3>
+                            {#if todo.description}
+                                <p class="text-gray-600 text-sm">{todo.description}</p>
+                            {/if}
+                        </div>
+                        <button 
+                            on:click={() => removeTodo(todo.id)}
+                            class="px-3 py-1 text-sm bg-red-100 text-red-700 rounded-md hover:bg-red-200 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200"
+                        >
+                            削除
+                        </button>
                     </div>
-                    <button on:click={() => removeTodo(todo.id)}>削除</button>
-                </li>
+                </div>
             {/each}
-        </ul>
+        </div>
     {/if}
 </main>
-
-<style>
-    main {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-
-    .add-todo {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-
-    .add-todo input {
-        flex: 1;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-    }
-
-    .add-todo button {
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    .todo-list {
-        list-style: none;
-        padding: 0;
-    }
-
-    .todo-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 15px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        margin-bottom: 10px;
-    }
-
-    .todo-item.completed {
-        opacity: 0.6;
-        text-decoration: line-through;
-    }
-
-    .todo-content {
-        flex: 1;
-    }
-
-    .todo-content h3 {
-        margin: 0 0 5px 0;
-    }
-
-    .todo-content p {
-        margin: 0;
-        color: #666;
-        font-size: 0.9em;
-    }
-
-    button {
-        padding: 5px 10px;
-        background-color: #dc3545;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-</style>
